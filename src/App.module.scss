@@ -7,4 +7,16 @@
     width: 150px;
     display: inline-block;
   }
+
+  .qrcode {
+    .img {
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .tips {
+      text-align: center;
+      line-height: 40px;
+    }
+  }
 }
