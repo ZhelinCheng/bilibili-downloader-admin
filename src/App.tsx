@@ -2,7 +2,7 @@
  * @Author       : 程哲林
  * @Date         : 2022-09-23 20:07:29
  * @LastEditors  : 程哲林
- * @LastEditTime : 2022-11-04 17:34:08
+ * @LastEditTime : 2022-11-04 22:54:07
  * @FilePath     : /bilibili-downloader-admin/src/App.tsx
  * @Description  : 未添加文件描述
  */
@@ -247,7 +247,7 @@ const App: React.FC = React.memo(() => {
       <Row>
         <Col span={8}>登录状态：{cfg.isLogin ? '正常' : '未登录'}</Col>
         <Col span={8}>会员状态：{cfg.vipStatus ? '正常' : '异常'}</Col>
-        <Col span={8}>上次更新：{dayjs(cfg.config.lastTime).format('YYYY-MM-DD HH:mm')}</Col>
+        <Col span={8}>上次更新：{dayjs(cfg.config.lastTime * 1000).format('YYYY-MM-DD HH:mm')}</Col>
       </Row>
       <Divider orientation='left'>基础配置</Divider>
       {cfg.isLogin ? (
