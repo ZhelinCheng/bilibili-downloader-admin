@@ -2,7 +2,7 @@
  * @Author       : 程哲林
  * @Date         : 2022-09-23 20:07:29
  * @LastEditors  : 程哲林
- * @LastEditTime : 2022-11-04 22:54:07
+ * @LastEditTime : 2022-11-05 16:47:17
  * @FilePath     : /bilibili-downloader-admin/src/App.tsx
  * @Description  : 未添加文件描述
  */
@@ -185,6 +185,8 @@ const App: React.FC = React.memo(() => {
     }
   });
 
+  const saveType = cfg.config.saveType;
+
   const onFinish = async (values: any) => {
     console.log(values);
     const {
@@ -193,6 +195,10 @@ const App: React.FC = React.memo(() => {
       ...values,
       id: cfg.config.id
     });
+
+    if (!values.outputPath) {
+      return Msg.warning(saveType === 'ftp' ? '请填写FTP目录路径，从/（根目录）开始' : '请填写文件保存目录路径（注意Windows/Linux目录路径区别）');
+    }
 
     if (statusCode === 200 && data) {
       Msg.success('更新成功');
@@ -257,6 +263,7 @@ const App: React.FC = React.memo(() => {
           labelCol={{ span: 8 }}
           onValuesChange={({ saveType }) => {
             if (saveType) {
+              form.setFieldValue('outputPath', '');
               setConfig((ct) => {
                 return {
                   ...ct,
@@ -320,7 +327,7 @@ const App: React.FC = React.memo(() => {
           ) : null}
 
           <Form.Item
-            label='视频保存位置'
+            label={saveType === 'ftp' ? 'FTP目录路径' : '本地保存路径'}
             name='outputPath'
             tooltip='本地默认保存在项目根目录output/下；FTP模式请填写FTP保存目录'>
             <Input placeholder='注意Windows及Linux路径区别' />
