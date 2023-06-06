@@ -9,6 +9,8 @@ import {
 import type { MenuProps } from 'antd';
 import { Layout, Menu, theme, Avatar, Dropdown } from 'antd';
 import styles from './App.module.scss';
+import { BrowserRouter, Routes, Route, Outlet, Link, HashRouter } from 'react-router-dom';
+import { Download, List, Universal } from './pages';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -23,22 +25,21 @@ const menuItems: MenuProps['items'] = [
     // 黑白名单、关键词等
     key: 'list',
     icon: <AimOutlined />,
-    label: '黑白名单'
+    label: <Link to='/list'>黑白名单</Link>
   },
   {
     // 下载类型、账号密码、存储位置、收藏夹动态、视频时长、超期时间
     key: 'download',
     icon: <DownloadOutlined />,
-    label: '下载设置'
+    label: <Link to='/download'>下载设置</Link>
   },
   {
     // 日志保存时间
     key: 'universal',
     icon: <VideoCameraOutlined />,
-    label: '通用设置'
+    label: <Link to='/universal'>通用设置</Link>
   }
 ];
-
 
 /* 
 const items: MenuProps['items'] = [
@@ -56,7 +57,7 @@ const items: MenuProps['items'] = [
   label: `nav ${index + 1}`
 })); */
 
-const App: React.FC = () => {
+const AppLayout = () => {
   const {
     token: { colorBgContainer }
   } = theme.useToken();
@@ -94,22 +95,36 @@ const App: React.FC = () => {
           </Dropdown>
         </Header>
         <Content className={styles.content}>
-          <div style={{ padding: 24, textAlign: 'center', background: colorBgContainer }}>
-            <p>long content</p>
-            {/* {
-              // indicates very long content
-              Array.from({ length: 100 }, (_, index) => (
-                <React.Fragment key={index}>
-                  {index % 20 === 0 && index ? 'more' : '...'}
-                  <br />
-                </React.Fragment>
-              ))
-            } */}
+          <div className={styles.wrap}>
+            <Outlet />
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer>
       </Layout>
     </Layout>
+  );
+};
+
+function Home() {
+  return (
+    <div>
+      <h2>Home</h2>
+    </div>
+  );
+}
+
+const App: React.FC = () => {
+  return (
+    <HashRouter>
+      <Routes>
+        <Route path='/' element={<AppLayout />}>
+          <Route index element={<Home />} />
+          <Route path='download' element={<Download />} />
+          <Route path='list' element={<List />} />
+          <Route path='universal' element={<Universal />} />
+        </Route>
+      </Routes>
+    </HashRouter>
   );
 };
 
